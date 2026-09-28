@@ -3,11 +3,11 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <Card className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 border-t bg-transparent">
+    <Card className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 bg-transparent">
       <CardContent className="flex flex-col md:flex-row justify-between items-center py-6">
         {/* Branding */}
         <div className="text-center md:text-left">
-          <h2 className="text-lg font-bold text-primary">SmartLease</h2>
+          <h2 className="text-lg font-bold text-primary">Rentora</h2>
           <p className="text-sm text-muted-foreground">
             Scalable property leasing platform for Bangladesh
           </p>
@@ -30,9 +30,9 @@ const Footer = () => {
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-center border-t py-4">
+      <CardFooter className="flex justify-center py-4">
         <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} SmartLease. All rights reserved.
+          © {new Date().getFullYear()} Rentora. All rights reserved.
         </p>
       </CardFooter>
     </Card>

@@ -11,6 +11,7 @@ import {
 } from "../../ui/card";
 import { useForm } from "@tanstack/react-form";
 import {
+  CreatePropertyFormInput,
   CreatePropertyInput,
   createPropertySchema,
 } from "@/validations/property.validation";
@@ -20,6 +21,8 @@ import { Textarea } from "../../ui/textarea";
 import { PropertyType } from "@/types/property.type";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import { FACILITIES, NEARBY_PLACE_TYPES } from "@/constants/property.constant";
+import { Plus, Trash2 } from "lucide-react";
 
 const AddPropertyCard = () => {
   const { mutate, isPending } = useCreateProperty();
@@ -30,15 +33,19 @@ const AddPropertyCard = () => {
       address: "",
       city: "",
       type: "apartment",
-      total_units: 0,
+      total_units: "",
       description: "",
-    } as CreatePropertyInput,
+      facilities: [],
+      nearby_places: [],
+    } as CreatePropertyFormInput,
     validators: {
       onSubmit: createPropertySchema,
     },
     onSubmit: async ({ value }) => {
-      mutate(value, {
-        onSuccess: () => router.push("/propperty"),
+      const data = createPropertySchema.parse(value);
+      console.log(data);
+      mutate(data, {
+        onSuccess: () => router.push("/property"),
       });
     },
   });
@@ -167,15 +174,9 @@ const AddPropertyCard = () => {
                     <Label>Total Units</Label>
                     <Input
                       type="number"
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value ?? ""}
+                      value={field.state.value}
                       placeholder="Enter Total Unit"
-                      min={1}
-                      max={500}
-                      onChange={(e) =>
-                        field.handleChange(Number(e.target.value))
-                      }
+                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />
@@ -208,6 +209,130 @@ const AddPropertyCard = () => {
                   </Field>
                 );
               }}
+            </form.Field>
+            {/* Facilities */}
+            <form.Field name="facilities">
+              {(field) => (
+                <Field>
+                  <Label>Facilities</Label>
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {FACILITIES.map((facility) => {
+                      const checked = field.state.value.includes(
+                        facility.value,
+                      );
+                      return (
+                        <label
+                          key={facility.value}
+                          className="flex items-center gap-2 text-sm cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={() =>
+                              field.handleChange(
+                                checked
+                                  ? field.state.value.filter(
+                                      (v) => v !== facility.value,
+                                    )
+                                  : [...field.state.value, facility.value],
+                              )
+                            }
+                          />
+                          {facility.label}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </Field>
+              )}
+            </form.Field>
+
+            {/* Nearby places */}
+            <form.Field name="nearby_places" mode="array">
+              {(field) => (
+                <Field>
+                  <div className="flex items-center justify-between">
+                    <Label>Nearby Places</Label>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        field.pushValue({
+                          type: "school",
+                          name: "",
+                          distance_km: "",
+                        })
+                      }
+                    >
+                      <Plus className="h-4 w-4 mr-1" /> Add place
+                    </Button>
+                  </div>
+
+                  {field.state.value.map((_, i) => (
+                    <div
+                      key={i}
+                      className="grid grid-cols-[1fr_1.5fr_1fr_auto] gap-2 items-start"
+                    >
+                      <form.Field name={`nearby_places[${i}].type`}>
+                        {(sub) => (
+                          <select
+                            value={sub.state.value}
+                            onChange={(e) =>
+                              sub.handleChange(e.target.value as any)
+                            }
+                            className="border border-gray-300 rounded-md p-2 w-full text-sm bg-white text-black dark:bg-[#001524] dark:text-white"
+                          >
+                            {NEARBY_PLACE_TYPES.map((t) => (
+                              <option key={t.value} value={t.value}>
+                                {t.label}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                      </form.Field>
+
+                      <form.Field name={`nearby_places[${i}].name`}>
+                        {(sub) => (
+                          <div>
+                            <Input
+                              value={sub.state.value}
+                              placeholder="Place name"
+                              onChange={(e) => sub.handleChange(e.target.value)}
+                            />
+                            {sub.state.meta.isTouched &&
+                              !sub.state.meta.isValid && (
+                                <FieldError errors={sub.state.meta.errors} />
+                              )}
+                          </div>
+                        )}
+                      </form.Field>
+
+                      <form.Field name={`nearby_places[${i}].distance_km`}>
+                        {(sub) => (
+                          <Input
+                            type="number"
+                            step="0.1"
+                            min={0}
+                            value={sub.state.value}
+                            placeholder="km"
+                            onChange={(e) => sub.handleChange(e.target.value)}
+                          />
+                        )}
+                      </form.Field>
+
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => field.removeValue(i)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </Field>
+              )}
             </form.Field>
           </FieldGroup>
         </form>
