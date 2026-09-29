@@ -71,10 +71,14 @@ export const createUnitSchema = z.object({
   has_water_supply: z.boolean().optional(),
   is_pet_friendly: z.boolean().optional(),
 
-  available_from: z.coerce
+  available_from: z
     .date()
-    .min(new Date(), "Available date cannot be in the past")
-    .optional(),
+    .optional()
+    .refine(
+      (date) => !date || date >= new Date(new Date().setHours(0, 0, 0, 0)),
+      "Available date cannot be in the past",
+    ),
 });
 
-export type CreateUnitInput = z.infer<typeof createUnitSchema>;
+export type CreateUnitFormInput = z.input<typeof createUnitSchema>;
+export type CreateUnitInput = z.output<typeof createUnitSchema>;

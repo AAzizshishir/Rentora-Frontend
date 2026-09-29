@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 import { useCreateUnit } from "@/hooks/useUnits";
 import {
   createUnitSchema,
-  CreateUnitInput,
+  CreateUnitFormInput,
 } from "@/validations/unit.validation";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
@@ -69,10 +69,10 @@ const AddUnitCard = ({ propertyId }: Props) => {
       has_water_supply: true,
       is_pet_friendly: false,
       available_from: undefined,
-    } as CreateUnitInput,
-    // validators: {
-    //   onSubmit: createUnitSchema,
-    // },
+    } as CreateUnitFormInput,
+    validators: {
+      onSubmit: createUnitSchema,
+    },
     onSubmit: async ({ value }) => {
       mutate(value, {
         onSuccess: () => router.back(),

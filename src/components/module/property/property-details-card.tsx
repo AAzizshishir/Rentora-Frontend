@@ -25,7 +25,6 @@ const PropertyDetailsCard = () => {
   const { data, isLoading } = usePropertyDetails(id);
 
   const property = data?.data;
-  console.log(property);
 
   if (isLoading) return <CardSkeletonGrid count={1} />;
 

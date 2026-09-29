@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 
 // Get All
-export const useGetProperties = (params?: Record<string, unknown>) => {
+export const useGetAllProperties = (params?: Record<string, unknown>) => {
   return useQuery({
     queryKey: ["properties", params],
     queryFn: () => propertyService.getAll(params),
