@@ -21,8 +21,9 @@ import { Textarea } from "../../ui/textarea";
 import { PropertyType } from "@/types/property.type";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
-import { FACILITIES, NEARBY_PLACE_TYPES } from "@/constants/property.constant";
+// import { FACILITIES, NEARBY_PLACE_TYPES } from "@/constants/property.constant";
 import { Plus, Trash2 } from "lucide-react";
+import { FACILITIES, NEARBY_PLACE_TYPES } from "@/constants/property.constant";
 
 const AddPropertyCard = () => {
   const { mutate, isPending } = useCreateProperty();
