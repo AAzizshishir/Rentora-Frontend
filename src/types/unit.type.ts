@@ -12,28 +12,22 @@ export interface Images {
   is_primary: boolean;
 }
 
-export interface Unit {
+export type Unit = {
   id: string;
   property_id: string;
-
   unit_number: string;
-  type: UnitType;
-  status: UnitStatus;
-
+  images: Images[];
+  type: string; // e.g. three_bed
+  status: string; // e.g. vacant
+  floor: number;
   bedrooms: number;
   bathrooms: number;
   balconies: number;
-  floor: number;
-
-  area_sqft: string;
-  monthly_rent: string;
-
+  area_sqft: string | number;
+  monthly_rent: string | number;
   security_deposit_months: number;
-
-  furnishing_status: FurnishingStatus;
-
-  images: Images[];
-
+  furnishing_status: string;
+  available_from: string;
   has_ac: boolean;
   has_gas: boolean;
   has_generator: boolean;
@@ -41,12 +35,4 @@ export interface Unit {
   has_parking: boolean;
   has_water_supply: boolean;
   is_pet_friendly: boolean;
-
-  available_from: string | null;
-
-  is_deleted: boolean;
-  deleted_at: string | null;
-
-  created_at: string;
-  updated_at: string;
-}
+};

@@ -48,8 +48,10 @@ export default function Navbar() {
   return (
     <nav
       className={`${
-        pathname === "/" ? "absolute top-0 left-0 z-20 w-full" : "relative"
-      } max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-transparent text-white`}
+        pathname === "/"
+          ? "absolute top-0 left-0 z-20 w-full text-white"
+          : "relative text-black dark:text-white"
+      } max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-transparent shadow-md`}
     >
       <div className=" flex items-center justify-between py-4">
         {/* Logo */}
@@ -61,7 +63,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex bg-transparent">
+        <nav className="hidden lg:flex bg-transparent ">
           {routes.map((item) => (
             <Link
               key={item.title}
@@ -103,7 +105,9 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Button className="rounded-md border border-border-color hover:bg-btn-primary px-3 py-1 text-sm font-medium bg-transparent text-white">
+              <Button
+                className={`${pathname === "/" ? "text-white" : "text-black dark:text-white"} rounded-md border border-border-color hover:bg-btn-primary px-3 py-1 text-sm font-medium bg-transparent`}
+              >
                 <Link href="/login">Login</Link>
               </Button>
               <Button className="rounded-md bg-btn-primary text-black hover:border-border-color  px-3 py-1 text-sm font-medium">
