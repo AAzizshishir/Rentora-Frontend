@@ -7,13 +7,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Property } from "@/types/property.type";
 
-const PublicPropertyCard = () => {
-  const { data } = useGetAllProperties();
+type PublicPropertyCardProps = {
+  params?: Record<string, unknown>;
+};
 
+const PublicPropertyCard = ({ params }: PublicPropertyCardProps) => {
+  const { data } = useGetAllProperties(params);
   const properties = data?.data || [];
-  const meta = data?.meta || {};
 
-  console.log(properties);
   return (
     <section className="max-w-7xl mx-auto py-8 px-4">
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">

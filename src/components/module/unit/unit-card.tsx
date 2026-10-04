@@ -11,21 +11,15 @@ import Link from "next/link";
 import Pagination from "@/components/shared/pagination";
 
 type UnitCardProps = {
-  page?: number;
-  limit?: number;
-  sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  params: Record<string, unknown>;
   showPagination?: boolean;
 };
 
 const UnitCard = ({
-  page = 1,
-  limit = 6,
-  sortBy,
-  sortOrder,
+  params,
   showPagination = true,
 }: UnitCardProps) => {
-  const { data } = useGetAllUnits({ page, limit, sortBy, sortOrder });
+  const { data } = useGetAllUnits(params);
   const units = data?.data;
   const meta = data?.meta;
 

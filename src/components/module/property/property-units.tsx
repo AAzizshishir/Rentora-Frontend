@@ -88,19 +88,11 @@ const PropertyUnits = ({ units, getUnitHref, onViewDetails }: Props) => {
                     </span>
                   </td>
                   <td className="px-3 py-5">
-                    {getUnitHref ? (
-                      <Link href={getUnitHref(unit)} className={detailsClass}>
+                    <button type="button" className={detailsClass}>
+                      <Link href={`/units/${unit.id}`} className={detailsClass}>
                         View details
                       </Link>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => onViewDetails?.(unit)}
-                        className={detailsClass}
-                      >
-                        View details
-                      </button>
-                    )}
+                    </button>
                   </td>
                 </tr>
               ))}

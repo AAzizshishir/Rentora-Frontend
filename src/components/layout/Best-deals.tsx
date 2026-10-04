@@ -29,11 +29,12 @@ const BestDeals = async () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {/* Reuse UnitCard with props */}
           <UnitCard
-            limit={3}
-            sortBy="monthly_rent"
-            sortOrder="asc"
+            params={{
+              limit: 3,
+              sortBy: "monthly_rent",
+              sortOrder: "asc",
+            }}
             showPagination={false}
           />
         </CardContent>
