@@ -5,4 +5,8 @@ export const publicNavRoutes: NavRoute[] = [
   { title: "Property", url: "/all-property" },
   { title: "Units", url: "/units" },
   { title: "About", url: "/about" },
+  {
+    title: "List Your Property",
+    url: "/register?redirect=/apply-for-landlord",
+  },
 ];

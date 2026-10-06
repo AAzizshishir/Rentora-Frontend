@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
+import { getRegistrationRedirect } from "@/lib/registration-redirect";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeOff } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
@@ -30,7 +31,7 @@ import { GoogleLoginButton } from "../auth/googleLoginButton";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  password: z.string().min(8, "Minimum length is 8"),
+  password: z.string().min(8, "Minimum 8 Characters required"),
   email: z.email(),
 });
 
@@ -55,7 +56,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
           toast.error(data.error.message, { id: toastId });
           return;
         } else {
-          router.push("/");
+          router.push(getRegistrationRedirect(window.location.search));
         }
 
         toast.success("Registration Successfull", { id: toastId });

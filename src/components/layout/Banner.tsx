@@ -23,7 +23,10 @@ const slides = [
     description:
       "Browse thousands of verified properties. Apply online, sign your lease digitally, and move in — all in one place.",
     primaryBtn: { label: "Browse units", href: "/units" },
-    secondaryBtn: { label: "List your property", href: "/register" },
+    secondaryBtn: {
+      label: "List your property",
+      href: "/register?redirect=/apply-for-landlord",
+    },
   },
   {
     id: 2,

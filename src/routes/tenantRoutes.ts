@@ -24,12 +24,17 @@ export const tenantRoutes: Route[] = [
         title: "Payment",
         url: "/payment",
       },
+      {
+        title: "Apply For Landlord",
+        url: "/apply-for-landlord",
+      },
     ],
   },
 ];
 
 export const tenantNavRoutes: NavRoute[] = [
   { title: "Home", url: "/" },
+  { title: "Property", url: "/all-property" },
   {
     title: "Units",
     url: "/units",

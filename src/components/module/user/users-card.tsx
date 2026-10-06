@@ -12,16 +12,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetAllUsers, useUpdateUserStatus } from "@/hooks/useUsers";
+import { useSession } from "@/lib/auth-client";
+import { AppSession } from "@/types/session.type";
 import { UserType } from "@/types/user.type";
 import Link from "next/link";
 
 const UsersList = () => {
   const { data, isLoading } = useGetAllUsers();
   const { mutate: updateUserStatus, isPending } = useUpdateUserStatus();
+  const { data: sessionData } = useSession();
+  const session = sessionData as AppSession | null;
 
   if (isLoading) return <ListSkeletonGrid count={10} />;
 
-  const users = data?.data;
+  const users = data?.data || [];
 
   return (
     <div>
@@ -38,7 +42,7 @@ const UsersList = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user: UserType) => (
+          {users?.map((user: UserType) => (
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
@@ -48,7 +52,12 @@ const UsersList = () => {
                 {new Date(user.createdAt).toLocaleDateString()}
               </TableCell>
               <TableCell>
-                {user.status === "ACTIVE" ? (
+                {session?.user.role?.toUpperCase() === "ADMIN" &&
+                session.user.id === user.id ? (
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Me
+                  </span>
+                ) : user.status === "ACTIVE" ? (
                   <Button
                     className="bg-red-500 text-white"
                     disabled={isPending}
