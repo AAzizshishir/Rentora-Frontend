@@ -1,26 +1,11 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { applyForLandlordService } from "@/services/apply_for_landlord.service";
-
-interface LandlordApplication {
-  created_at: string;
-  message: string | null;
-  phone: string;
-  property_address: string;
-  property_city: string;
-  property_name: string;
-  rejection_reason: string | null;
-  status: string;
-}
+import { useGetMyLandlordApplication } from "@/hooks/useApplyForLandlord";
 
 const MyLandlordApplicationCard = () => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["my-landlord-applications"],
-    queryFn: applyForLandlordService.getMyApplicationForLandlord,
-  });
+  const { data, isLoading, isError } = useGetMyLandlordApplication();
 
   if (isLoading) {
     return (
@@ -36,7 +21,7 @@ const MyLandlordApplicationCard = () => {
     );
   }
 
-  const application = data?.data as LandlordApplication | null | undefined;
+  const application = data?.data;
 
   if (!application) {
     return (
@@ -58,7 +43,7 @@ const MyLandlordApplicationCard = () => {
           variant={
             application.status === "rejected" ? "destructive" : "default"
           }
-          className="capitalize"
+          className="uppercase py-3"
         >
           {application.status}
         </Badge>

@@ -44,7 +44,6 @@ const AddPropertyCard = () => {
     },
     onSubmit: async ({ value }) => {
       const data = createPropertySchema.parse(value);
-      console.log(data);
       mutate(data, {
         onSuccess: () => router.push("/property"),
       });

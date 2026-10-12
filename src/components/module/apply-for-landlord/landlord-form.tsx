@@ -14,6 +14,8 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { useCreateLandlordApplication } from "@/hooks/useApplyForLandlord";
+import { useRouter } from "next/navigation";
 
 const landlordApplicationSchema = z.object({
   property_name: z.string().trim().min(1, "Property name is required"),
@@ -30,6 +32,8 @@ const landlordApplicationSchema = z.object({
 });
 
 const ApplyLandlordForm = () => {
+  const { mutate, isPending } = useCreateLandlordApplication();
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
       property_name: "",
@@ -42,7 +46,9 @@ const ApplyLandlordForm = () => {
       onSubmit: landlordApplicationSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log("Form submitted with values:", value);
+      mutate(value, {
+        onSuccess: () => router.push("/my-application-for-landlord"),
+      });
     },
   });
 
@@ -199,7 +205,14 @@ const ApplyLandlordForm = () => {
               }}
             </form.Field>
 
-            <Button type="submit">Submit application</Button>
+            <Button
+              form="apply-for-landlord-form"
+              type="submit"
+              className="w-full disabled:cursor-not-allowed"
+              disabled={isPending}
+            >
+              {isPending ? "Submitting application..." : "Submit application"}
+            </Button>
           </FieldGroup>
         </form>
       </CardContent>
