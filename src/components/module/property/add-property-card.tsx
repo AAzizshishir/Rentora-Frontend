@@ -252,7 +252,7 @@ const AddPropertyCard = () => {
             <form.Field name="nearby_places" mode="array">
               {(field) => (
                 <Field>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between border-t-2 pt-4">
                     <Label>Nearby Places</Label>
                     <Button
                       type="button"

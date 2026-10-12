@@ -15,10 +15,7 @@ type UnitCardProps = {
   showPagination?: boolean;
 };
 
-const UnitCard = ({
-  params,
-  showPagination = true,
-}: UnitCardProps) => {
+const UnitCard = ({ params, showPagination = true }: UnitCardProps) => {
   const { data } = useGetAllUnits(params);
   const units = data?.data;
   const meta = data?.meta;
@@ -33,9 +30,9 @@ const UnitCard = ({
           >
             {/* Image Section */}
             <div className="relative w-full h-52 overflow-hidden">
-              {unit.images?.length > 0 ? (
+              {unit?.images?.length > 0 ? (
                 <Image
-                  src={unit.images[1].url}
+                  src={unit?.images[0].url}
                   alt="Unit Image"
                   fill
                   className="object-cover group-hover:scale-110 transition duration-500"

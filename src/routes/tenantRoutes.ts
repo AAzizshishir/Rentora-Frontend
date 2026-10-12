@@ -25,8 +25,8 @@ export const tenantRoutes: Route[] = [
         url: "/payment",
       },
       {
-        title: "Apply For Landlord",
-        url: "/apply-for-landlord",
+        title: "My Application For Landlord",
+        url: "/my-application-for-landlord",
       },
     ],
   },
@@ -42,6 +42,10 @@ export const tenantNavRoutes: NavRoute[] = [
   {
     title: "About",
     url: "/about",
+  },
+  {
+    title: "List Your Property",
+    url: "/apply-for-landlord",
   },
   {
     title: "Dashboard",
