@@ -14,7 +14,28 @@ export interface LandlordApplication {
   property_city: string;
   property_name: string;
   rejection_reason: string | null;
-  status: string;
+  status: "pending" | "approved" | "rejected";
+}
+
+export interface AdminLandlordApplication extends LandlordApplication {
+  id: string;
+  applicant_id: string;
+  applicant: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  updated_at: string;
+  reviewed_at: string | null;
+  reviewed_by_id: string | null;
+}
+
+export interface AllLandlordApplicationsResponse {
+  data: AdminLandlordApplication[];
+}
+
+export interface RejectLandlordApplicationInput {
+  reason: string;
 }
 
 export interface MyLandlordApplicationResponse {
