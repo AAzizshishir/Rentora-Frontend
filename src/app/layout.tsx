@@ -11,6 +11,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import Script from "next/script";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
@@ -42,10 +43,12 @@ export default function RootLayout({
           "font-cormorant-garamond font-raleway antialiased",
         )}
       >
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`(()=>{try{const t=localStorage.getItem("theme");const v=t==="light"||t==="dark"||t==="system"?t:"dark";const r=v==="system"?(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):v;document.documentElement.classList.add(r);document.documentElement.style.colorScheme=r}catch{document.documentElement.classList.add("dark")}})()`}
+        </Script>
         <ThemeProvider
-          attribute="class"
           defaultTheme="dark"
-          enableSystem={false}
+          enableSystem
           disableTransitionOnChange
         >
           <Providers>{children}</Providers>

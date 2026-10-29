@@ -12,73 +12,92 @@ import "swiper/css/effect-fade";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Home } from "lucide-react";
+import { useGetAllBanners } from "@/hooks/useBanner";
+import Image from "next/image";
+import { IGetBanner } from "@/types/banner.type";
 
-const slides = [
-  {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600",
-    badge: "Premium Properties",
-    title: "Find Your Perfect",
-    highlight: "Home",
-    description:
-      "Browse thousands of verified properties. Apply online, sign your lease digitally, and move in — all in one place.",
-    primaryBtn: { label: "Browse units", href: "/units" },
-    secondaryBtn: {
-      label: "List your property",
-      href: "/register?redirect=/apply-for-landlord",
-    },
-  },
-  {
-    id: 2,
-    image:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600",
-    badge: "For Landlords",
-    title: "Manage Properties",
-    highlight: "Effortlessly",
-    description:
-      "List units, screen tenants, collect rent, and track maintenance — everything from one powerful dashboard.",
-    primaryBtn: { label: "Start managing", href: "/register" },
-    secondaryBtn: { label: "Learn more", href: "/about" },
-  },
-  {
-    id: 3,
-    image:
-      "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1600",
-    badge: "Smart Leasing",
-    title: "Digital Lease",
-    highlight: "Made Simple",
-    description:
-      "No paperwork, no hassle. Create, sign, and manage lease agreements completely online.",
-    primaryBtn: { label: "Get started", href: "/register" },
-    secondaryBtn: { label: "See how it works", href: "/how-it-works" },
-  },
-  {
-    id: 4,
-    image:
-      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1600",
-    badge: "Easy Payments",
-    title: "Pay Rent",
-    highlight: "On Time",
-    description:
-      "Automated rent reminders, online payments, and instant receipts. Never miss a due date again.",
-    primaryBtn: { label: "Browse units", href: "/browse" },
-    secondaryBtn: { label: "How payments work", href: "/payments" },
-  },
-  {
-    id: 5,
-    image:
-      "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1600",
-    badge: "24/7 Support",
-    title: "Maintenance",
-    highlight: "Requests",
-    description:
-      "Submit maintenance tickets with photos, track progress in real time, and get notified when issues are resolved.",
-    primaryBtn: { label: "Find a home", href: "/units" },
-    secondaryBtn: { label: "Contact support", href: "/support" },
-  },
-];
+// const slides = [
+//   {
+//     id: 1,
+//     image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600",
+//     badge: "Premium Properties",
+//     title: "Find Your Perfect",
+//     highlight: "Home",
+//     description:
+//       "Browse thousands of verified properties. Apply online, sign your lease digitally, and move in — all in one place.",
+//     primaryBtn: { label: "Browse units", href: "/units" },
+//     secondaryBtn: {
+//       label: "List your property",
+//       href: "/register?redirect=/apply-for-landlord",
+//     },
+//   },
+//   {
+//     id: 2,
+//     image:
+//       "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600",
+//     badge: "For Landlords",
+//     title: "Manage Properties",
+//     highlight: "Effortlessly",
+//     description:
+//       "List units, screen tenants, collect rent, and track maintenance — everything from one powerful dashboard.",
+//     primaryBtn: { label: "Start managing", href: "/register" },
+//     secondaryBtn: { label: "Learn more", href: "/about" },
+//   },
+//   {
+//     id: 3,
+//     image:
+//       "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1600",
+//     badge: "Smart Leasing",
+//     title: "Digital Lease",
+//     highlight: "Made Simple",
+//     description:
+//       "No paperwork, no hassle. Create, sign, and manage lease agreements completely online.",
+//     primaryBtn: { label: "Get started", href: "/register" },
+//     secondaryBtn: { label: "See how it works", href: "/how-it-works" },
+//   },
+//   {
+//     id: 4,
+//     image:
+//       "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1600",
+//     badge: "Easy Payments",
+//     title: "Pay Rent",
+//     highlight: "On Time",
+//     description:
+//       "Automated rent reminders, online payments, and instant receipts. Never miss a due date again.",
+//     primaryBtn: { label: "Browse units", href: "/browse" },
+//     secondaryBtn: { label: "How payments work", href: "/payments" },
+//   },
+//   {
+//     id: 5,
+//     image:
+//       "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1600",
+//     badge: "24/7 Support",
+//     title: "Maintenance",
+//     highlight: "Requests",
+//     description:
+//       "Submit maintenance tickets with photos, track progress in real time, and get notified when issues are resolved.",
+//     primaryBtn: { label: "Find a home", href: "/units" },
+//     secondaryBtn: { label: "Contact support", href: "/support" },
+//   },
+// ];
 
 const Banner = () => {
+  const { data, isLoading, isError } = useGetAllBanners();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading banners</div>;
+  }
+
+  const slides = data.data || [];
+
+  if (slides.length === 0) {
+    return <div>No banners available</div>;
+  }
+
   return (
     <div className="relative w-full h-145 md:h-170">
       <Swiper
@@ -96,13 +115,13 @@ const Banner = () => {
         loop
         className="w-full h-full"
       >
-        {slides.map((slide) => (
+        {slides.map((slide: IGetBanner) => (
           <SwiperSlide key={slide.id}>
             <div className="relative w-full h-full">
               {/* Background Image */}
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${slide.image})` }}
+                style={{ backgroundImage: `url(${slide?.imageUrl})` }}
               />
 
               {/* Overlay */}
@@ -111,42 +130,22 @@ const Banner = () => {
               {/* Content */}
               <div className="relative z-10 h-full flex items-center">
                 <div className="container mx-auto px-6 md:px-12 max-w-7xl">
-                  {/* Badge */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <Home className="h-3.5 w-3.5 text-primary" />
-                    <span className="text-primary text-sm font-medium tracking-wide uppercase">
-                      {slide.badge}
-                    </span>
-                  </div>
-
                   {/* Title */}
                   <h1 className="text-4xl md:text-6xl font-heading font-bold text-white leading-tight mb-4">
-                    {slide.title}{" "}
-                    <span className="text-primary">{slide.highlight}</span>
+                    {slide?.title}{" "}
                   </h1>
 
                   {/* Description */}
                   <p className="text-white/75 text-base md:text-lg max-w-xl mb-8 leading-relaxed">
-                    {slide.description}
+                    {slide?.subtitle}
                   </p>
 
                   {/* Buttons */}
                   <div className="flex flex-wrap gap-3">
                     <Button asChild size="lg" className="gap-2">
-                      <Link href={slide.primaryBtn.href}>
-                        {slide.primaryBtn.label}
+                      <Link href={`/${slide?.ctaLink}`}>
+                        {slide?.ctaText}
                         <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    </Button>
-
-                    <Button
-                      asChild
-                      size="lg"
-                      variant="outline"
-                      className="bg-transparent border-white/40 text-white hover:border-white"
-                    >
-                      <Link href={slide.secondaryBtn.href}>
-                        {slide.secondaryBtn.label}
                       </Link>
                     </Button>
                   </div>
