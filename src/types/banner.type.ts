@@ -17,3 +17,16 @@ export interface IGetBanner {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface BannerInput {
+  image?: File;
+  altText: string;
+  title: string;
+  subtitle: string;
+  ctaText: string;
+  ctaLink: string;
+}
+
+export interface CreateBannerInput extends BannerInput {
+  image: File;
+}

@@ -1,4 +1,3 @@
-// components/shared/HeroBanner.tsx
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,84 +12,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Home } from "lucide-react";
 import { useGetAllBanners } from "@/hooks/useBanner";
-import Image from "next/image";
 import { IGetBanner } from "@/types/banner.type";
 
-// const slides = [
-//   {
-//     id: 1,
-//     image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600",
-//     badge: "Premium Properties",
-//     title: "Find Your Perfect",
-//     highlight: "Home",
-//     description:
-//       "Browse thousands of verified properties. Apply online, sign your lease digitally, and move in — all in one place.",
-//     primaryBtn: { label: "Browse units", href: "/units" },
-//     secondaryBtn: {
-//       label: "List your property",
-//       href: "/register?redirect=/apply-for-landlord",
-//     },
-//   },
-//   {
-//     id: 2,
-//     image:
-//       "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600",
-//     badge: "For Landlords",
-//     title: "Manage Properties",
-//     highlight: "Effortlessly",
-//     description:
-//       "List units, screen tenants, collect rent, and track maintenance — everything from one powerful dashboard.",
-//     primaryBtn: { label: "Start managing", href: "/register" },
-//     secondaryBtn: { label: "Learn more", href: "/about" },
-//   },
-//   {
-//     id: 3,
-//     image:
-//       "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1600",
-//     badge: "Smart Leasing",
-//     title: "Digital Lease",
-//     highlight: "Made Simple",
-//     description:
-//       "No paperwork, no hassle. Create, sign, and manage lease agreements completely online.",
-//     primaryBtn: { label: "Get started", href: "/register" },
-//     secondaryBtn: { label: "See how it works", href: "/how-it-works" },
-//   },
-//   {
-//     id: 4,
-//     image:
-//       "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1600",
-//     badge: "Easy Payments",
-//     title: "Pay Rent",
-//     highlight: "On Time",
-//     description:
-//       "Automated rent reminders, online payments, and instant receipts. Never miss a due date again.",
-//     primaryBtn: { label: "Browse units", href: "/browse" },
-//     secondaryBtn: { label: "How payments work", href: "/payments" },
-//   },
-//   {
-//     id: 5,
-//     image:
-//       "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1600",
-//     badge: "24/7 Support",
-//     title: "Maintenance",
-//     highlight: "Requests",
-//     description:
-//       "Submit maintenance tickets with photos, track progress in real time, and get notified when issues are resolved.",
-//     primaryBtn: { label: "Find a home", href: "/units" },
-//     secondaryBtn: { label: "Contact support", href: "/support" },
-//   },
-// ];
-
 const Banner = () => {
-  const { data, isLoading, isError } = useGetAllBanners();
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error loading banners</div>;
-  }
+  const { data } = useGetAllBanners();
 
   const slides = data.data || [];
 

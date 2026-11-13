@@ -12,6 +12,7 @@ export const adminRoutes: Route[] = [
         title: "Profile",
         url: "/profile",
       },
+      { title: "Manage Banner", url: "/banner" },
       {
         title: "Users",
         url: "/users",
