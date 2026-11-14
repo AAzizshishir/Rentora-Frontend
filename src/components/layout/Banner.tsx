@@ -10,18 +10,23 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Home } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useGetAllBanners } from "@/hooks/useBanner";
 import { IGetBanner } from "@/types/banner.type";
+import { Skeleton } from "../ui/skeleton";
 
 const Banner = () => {
-  const { data } = useGetAllBanners();
+  const { data, isLoading, isError, error } = useGetAllBanners();
 
-  const slides = data.data || [];
+  if (isLoading) return <Skeleton />;
 
-  if (slides.length === 0) {
-    return <div>No banners available</div>;
+  if (isError) {
+    console.error("Banner fetch failed:", error);
+    return <div>Failed to load banners</div>;
   }
+
+  const slides = data?.data ?? [];
+  if (slides.length === 0) return <div>No banners available</div>;
 
   return (
     <div className="relative w-full h-145 md:h-170">

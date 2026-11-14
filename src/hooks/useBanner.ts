@@ -1,13 +1,6 @@
 import { bannerService } from "@/services/banner.service";
-import {
-  BannerInput,
-  CreateBannerInput,
-} from "@/types/banner.type";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { BannerInput, CreateBannerInput } from "@/types/banner.type";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
@@ -15,6 +8,8 @@ export const useGetAllBanners = () => {
   return useQuery({
     queryKey: ["banner"],
     queryFn: () => bannerService.getAll(),
+    // staleTime: 60 * 1000,
+    // refetchOnMount: true,
   });
 };
 
